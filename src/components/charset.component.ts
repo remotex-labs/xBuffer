@@ -2,53 +2,7 @@
  * Imports
  */
 
-import { hexByteEncodeTable, hexCharLookupTable } from '@structs/lookup.struct';
-
-/**
- * The `lookup` initialization creates a Base64 lookup table to map each Base64 character (and padding)
- * to its corresponding index value (0–63). The table is created using a `Uint8Array` where the index
- * represents a byte value (0–255), with the Base64 characters mapped to their respective values.
- *
- * - **Input**: A string containing the Base64 character set, which includes:
- *   - Uppercase letters: 'A' to 'Z'
- *   - Lowercase letters: 'a' to 'z'
- *   - Digits: '0' to '9'
- *   - Special characters: '+' and '/'
- *
- *   The padding character `=` is also handled separately in the lookup table.
- *
- * - **Output**: A `Uint8Array` of size 256, where each index represents a byte value and stores the corresponding
- *   Base64 value for valid characters. The padding character `=` is mapped to `0`.
- *
- * ## Example:
- *
- * ```ts
- * const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
- * const lookup = new Uint8Array(256); // 256-length array for all possible byte values
- * for (let i = 0; i < chars.length; i++) {
- *     lookup[chars.charCodeAt(i)] = i;
- * }
- * lookup['='.charCodeAt(0)] = 0; // Handle padding
- *
- * console.log(lookup['A'.charCodeAt(0)]); // 0
- * console.log(lookup['B'.charCodeAt(0)]); // 1
- * console.log(lookup['='.charCodeAt(0)]); // 0
- * ```
- *
- * ## Error Handling:
- * - The array is created with a size of 256 to cover all possible byte values (0–255).
- * - If invalid characters are encountered during Base64 decoding, the lookup table will return `undefined`
- *   (or a default value, if specified).
- *
- * @returns A `Uint8Array` of size 256 with the Base64 character values mapped for decoding.
- */
-
-const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-const lookup = new Uint8Array(256); // Base64 has 64 characters, but we need a 256-length array to store all possible byte values
-for (let i = 0; i < chars.length; i++) {
-    lookup[chars.charCodeAt(i)] = i;
-}
-lookup['='.charCodeAt(0)] = 0;
+import { base64Chars, base64LookupTable, hexByteLookupTable, hexCharLookupTable } from '@structs/lookup.struct';
 
 /**
  * A private static method that checks whether the given object is an instance of the specified type.
@@ -381,7 +335,7 @@ export function encodeHEX(bytes: Uint8Array, length?: number): string {
     let result = '';
 
     for (let i = 0; i < maxLength; i++) {
-        result += hexByteEncodeTable[bytes[i]];
+        result += hexByteLookupTable[bytes[i]];
     }
 
     return result;
@@ -500,36 +454,31 @@ export function encodeBase64(bytes: Uint8Array, length?: number): string {
         throw new Error('encodeBase64 input must be a Uint8Array');
     }
 
+    let base64Str = '';
+
     let i = 0;
-    const result = [];
     const maxLength = length !== undefined ? Math.min(length, bytes.length) : bytes.length;
 
+    // Process each chunk of 3 bytes
     while (i < maxLength) {
         const byte1 = bytes[i++];
         const byte2 = i < maxLength ? bytes[i++] : 0;
         const byte3 = i < maxLength ? bytes[i++] : 0;
 
-        // Combine the 3 bytes into a 24-bit number
-        const combined = (byte1 << 16) | (byte2 << 8) | byte3;
-
-        // Extract 4 Base64 characters from the 24-bit number
-        result.push(
-            chars.charAt((combined >> 18) & 0x3F),
-            chars.charAt((combined >> 12) & 0x3F),
-            i - 1 < maxLength ? chars.charAt((combined >> 6) & 0x3F) : '=',
-            i < maxLength + 1 ? chars.charAt(combined & 0x3F) : '='
-        );
+        // Convert 3 bytes into 4 Base64 characters
+        base64Str += base64Chars[byte1 >> 2];
+        base64Str += base64Chars[((byte1 & 3) << 4) | (byte2 >> 4)];
+        base64Str += base64Chars[((byte2 & 15) << 2) | (byte3 >> 6)];
+        base64Str += base64Chars[byte3 & 63];
     }
 
-    // Handle padding based on the number of bytes processed
+    // Handle padding if necessary
     const padding = maxLength % 3;
-    if (padding === 1) {
-        result.splice(result.length - 2, 2, '==');
-    } else if (padding === 2) {
-        result.splice(result.length - 1, 1, '=');
+    if (padding > 0) {
+        base64Str = base64Str.slice(0, padding - 3) + '='.repeat(3 - padding);
     }
 
-    return result.join('');
+    return base64Str;
 }
 
 /**
@@ -573,43 +522,38 @@ export function encodeBase64(bytes: Uint8Array, length?: number): string {
 
 export function decodeBase64(data: string, length?: number): Uint8Array {
     if (typeof data !== 'string') {
-        throw new Error('decodeHEX input must be a string');
+        throw new Error('decodeBase64 input must be a string');
     }
 
-    if (!/^[A-Za-z0-9+/=\n\s@]*$/.test(data)) {
-        return new Uint8Array(0);
-    }
+    // Remove all non-Base64 characters (such as spaces, newlines, etc.)
+    data = data.replace(/[^A-Za-z0-9+/=]/g, '');
 
-    // Remove non-Base64 characters (e.g., @, or any other invalid characters)
-    const sanitizedData = data.replace(/[\s\n=@]/g, '');
+    // Handle padding
+    const padding = data.indexOf('=');
+    const base64Length = padding === -1 ? data.length : padding;
+
+    // Prepare an array to store the decoded bytes
+    const uint8Array = new Uint8Array((base64Length * 3) / 4);
     const maxLength = length !== undefined ? Math.min(length, data.length) : data.length;
 
-    const decodedBytes: number[] = [];
-    for (let i = 0; i < sanitizedData.length; i += 4) {
-        const sextet1 = lookup[sanitizedData.charCodeAt(i)];
-        const sextet2 = lookup[sanitizedData.charCodeAt(i + 1)];
-        const sextet3 = sanitizedData[i + 2] !== undefined ? lookup[sanitizedData.charCodeAt(i + 2)] : 0;
-        const sextet4 = sanitizedData[i + 3] !== undefined ? lookup[sanitizedData.charCodeAt(i + 3)] : 0;
+    let buffer = 0;
+    let byteIndex = 0;
+    let bufferLength = 0;
 
-        // Decode 4 Base64 characters into 3 bytes
-        const byte1 = (sextet1 << 2) | (sextet2 >> 4);
-        const byte2 = ((sextet2 & 15) << 4) | (sextet3 >> 2);
-        const byte3 = ((sextet3 & 3) << 6) | sextet4;
+    for (let i = 0; i < base64Length; i++) {
+        const charCode = data.charCodeAt(i);
+        const value = base64LookupTable[charCode];
+        if (value === -1) continue;
 
-        decodedBytes.push(byte1);
-        if (sanitizedData[i + 2] !== undefined) decodedBytes.push(byte2);
-        if (sanitizedData[i + 3] !== undefined) decodedBytes.push(byte3);
+        buffer = (buffer << 6) | value;
+        bufferLength += 6;
 
-        // Stop decoding if the optional length is reached
-        if (maxLength !== undefined && decodedBytes.length >= maxLength) {
-            return new Uint8Array(decodedBytes.slice(0, maxLength));
+        // If we have a full byte (8 bits), extract it
+        if (bufferLength >= 8) {
+            bufferLength -= 8;
+            uint8Array[byteIndex++] = (buffer >> bufferLength) & 0xFF;
         }
     }
 
-    // Trim all trailing zeros from the decoded array
-    while (decodedBytes[decodedBytes.length - 1] === 0) {
-        decodedBytes.pop();
-    }
-
-    return new Uint8Array(decodedBytes);
+    return uint8Array.subarray(0, maxLength);
 }

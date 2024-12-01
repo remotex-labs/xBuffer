@@ -77,16 +77,62 @@ export const hexCharLookupTable = [
  * ```ts
  * // Example usage:
  * const byte = 255;
- * const hexString = hexByteEncodeTable[byte];
+ * const hexString = hexByteLookupTable[byte];
  * console.log(hexString);  // Outputs: "ff"
  *
  * const anotherByte = 128;
- * const anotherHexString = hexByteEncodeTable[anotherByte];
+ * const anotherHexString = hexByteLookupTable[anotherByte];
  * console.log(anotherHexString);  // Outputs: "80"
  * ```
  */
 
-export const hexByteEncodeTable = Array.from(
+export const hexByteLookupTable = Array.from(
     { length: 256 },
     (_, i) => i.toString(16).padStart(2, '0')
 );
+
+/**
+ * Lookup table for Base64 character decoding.
+ *
+ * ## Description:
+ * This table maps Base64-encoded characters (A-Z, a-z, 0-9, '+', '/') to their corresponding 6-bit values.
+ * The table is initialized with a default value of `-1` for each index, and then populated with valid Base64 character
+ * values where each character corresponds to a 6-bit integer (0–63).
+ * This lookup table allows for fast Base64 decoding by directly mapping characters to their numeric equivalents,
+ * eliminating the need for repeated string comparisons or complex parsing.
+ *
+ * - The array index corresponds to the ASCII value of the Base64 character.
+ * - The value at each index is the numeric value (0–63) of the Base64 character:
+ *   - `'A'` to `'Z'` (ASCII codes 65–90) map to values 0–25.
+ *   - `'a'` to `'z'` (ASCII codes 97–122) map to values 26–51.
+ *   - `'0'` to `'9'` (ASCII codes 48–57) map to values 52–61.
+ *   - `'+'` (ASCII code 43) maps to 62.
+ *   - `'/'` (ASCII code 47) maps to 63.
+ *   - All other characters are initialized to `-1`, indicating they are not valid Base64 characters.
+ *
+ * - **Input**:
+ *   - ASCII character codes (from Base64-encoded string characters).
+ *
+ * - **Output**:
+ *   - Numeric values (0–63) for valid Base64 characters.
+ *   - `-1` for invalid Base64 characters.
+ *
+ * ## Example:
+ *
+ * ```ts
+ * // Example usage:
+ * const char = 'A'; // ASCII code 65
+ * const value = base64LookupTable[char.charCodeAt(0)];
+ * console.log(value);  // Outputs: 0 (Base64 value for 'A')
+ *
+ * const invalidChar = '@'; // ASCII code 64
+ * const invalidValue = base64LookupTable[invalidChar.charCodeAt(0)];
+ * console.log(invalidValue);  // Outputs: -1 (Invalid character for Base64)
+ * ```
+ */
+
+export const base64LookupTable = new Array(256).fill(-1);
+export const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+for (let i = 0; i < base64Chars.length; i++) {
+    base64LookupTable[base64Chars.charCodeAt(i)] = i;
+}
