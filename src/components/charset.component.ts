@@ -2,7 +2,13 @@
  * Imports
  */
 
-import { base64Chars, base64LookupTable, hexByteLookupTable, hexCharLookupTable } from '@structs/lookup.struct';
+import {
+    base64Chars,
+    base64LookupTable,
+    hexByteLookupTable,
+    hexCharLookupTable,
+    utf16leLookupTable
+} from '@structs/lookup.struct';
 
 /**
  * A private static method that checks whether the given object is an instance of the specified type.
@@ -209,22 +215,21 @@ export function encodeUTF16LE(bytes: Uint8Array, length?: number): string {
     }
 
     // Clamp the length to the array bounds if specified.
-    const maxLength = length !== undefined ? Math.min(length, bytes.length) : bytes.length;
-
-    let str = '';
-    for (let i = 0; i < maxLength; i += 2) {
-        if (i + 1 >= maxLength) break; // Incomplete pair, stop decoding
-
-        const lowByte = bytes[i];
-        const highByte = bytes[i + 1];
-        const charCode = lowByte | (highByte << 8);
-
-        if (charCode === 0) break; // Skip null characters
-
-        str += String.fromCharCode(charCode);
+    let maxLength = length !== undefined ? Math.min(length, bytes.length) : bytes.length;
+    if (maxLength % 2 !== 0) {
+        maxLength -= 1;
     }
 
-    return str;
+    const data = bytes.subarray(0, maxLength);
+    const charArray = new Array(data.length / 2);
+    for (let i = 0; i < data.length; i += 2) {
+        const codeUnit = data[i] | (data[i + 1] << 8);
+
+        if (codeUnit === 0) break;
+        charArray[i / 2] = utf16leLookupTable[codeUnit];
+    }
+
+    return charArray.join('');
 }
 
 /**

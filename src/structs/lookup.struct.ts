@@ -136,3 +136,49 @@ export const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 for (let i = 0; i < base64Chars.length; i++) {
     base64LookupTable[base64Chars.charCodeAt(i)] = i;
 }
+
+/**
+ * Lookup table for UTF-16LE character decoding.
+ *
+ * ## Description:
+ * This table maps all possible 16-bit integer values (0x0000 to 0xFFFF) to their corresponding UTF-16 characters.
+ * Each index in the array represents a 16-bit integer value, and the value at that index is the corresponding
+ * character decoded using `String.fromCharCode`.
+ *
+ * By precomputing this table, repeated calls to `String.fromCharCode` are avoided, enabling faster UTF-16 decoding,
+ * especially for large datasets or frequent operations involving UTF-16LE decoding.
+ *
+ * - The array index represents a 16-bit integer value (0 to 65535).
+ * - The value at each index is the corresponding character as defined in the UTF-16LE encoding.
+ * - This table is primarily useful in scenarios where decoding UTF-16LE strings is required for performance-critical
+ * applications or repeated decoding tasks.
+ *
+ * ## Usage:
+ * This lookup table is used for fast UTF-16LE decoding by directly mapping 16-bit integer values to characters.
+ * Instead of calling `String.fromCharCode` for every value during decoding, the corresponding character can be
+ * fetched directly from this precomputed table.
+ *
+ * - **Input**:
+ *   - A 16-bit integer value (0x0000 to 0xFFFF).
+ *
+ * - **Output**:
+ *   - The UTF-16LE character corresponding to the given 16-bit integer value.
+ *
+ * ## Example:
+ *
+ * ```ts
+ * // Example usage:
+ * const codeUnit = 0x0041; // 16-bit integer for 'A'
+ * const char = utf16leLookupTable[codeUnit];
+ * console.log(char); // Outputs: 'A'
+ *
+ * const anotherCodeUnit = 0x3042; // 16-bit integer for 'あ' (Hiragana letter A)
+ * const anotherChar = utf16leLookupTable[anotherCodeUnit];
+ * console.log(anotherChar); // Outputs: 'あ'
+ * ```
+ */
+
+export const utf16leLookupTable: string[] = new Array(0x10000);
+for (let i = 0; i <= 0xFFFF; i++) {
+    utf16leLookupTable[i] = String.fromCharCode(i);
+}
