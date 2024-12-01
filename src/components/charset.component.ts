@@ -1,4 +1,10 @@
 /**
+ * Imports
+ */
+
+import { hexByteEncodeTable, hexCharLookupTable } from '@structs/lookup.struct';
+
+/**
  * The `lookup` initialization creates a Base64 lookup table to map each Base64 character (and padding)
  * to its corresponding index value (0–63). The table is created using a `Uint8Array` where the index
  * represents a byte value (0–255), with the Base64 characters mapped to their respective values.
@@ -367,16 +373,18 @@ export function decodeUTF16LE(data: string, length?: number): Uint8Array {
  */
 
 export function encodeHEX(bytes: Uint8Array, length?: number): string {
-    if (!isInstance(bytes, Uint8Array)) {
+    if (!(bytes instanceof Uint8Array)) {
         throw new Error('encodeHEX input must be a Uint8Array');
     }
 
-    // Clamp the length to the array bounds if specified.
     const maxLength = length !== undefined ? Math.min(length, bytes.length) : bytes.length;
+    let result = '';
 
-    return Array.from(bytes.slice(0, maxLength))
-        .map(byte => byte.toString(16).padStart(2, '0'))
-        .join('');
+    for (let i = 0; i < maxLength; i++) {
+        result += hexByteEncodeTable[bytes[i]];
+    }
+
+    return result;
 }
 
 /**
@@ -437,7 +445,12 @@ export function decodeHEX(data: string, length?: number): Uint8Array {
     const maxLength = length !== undefined ? Math.min(length * 2, data.length) : data.length;
     const hexBytes = new Uint8Array(maxLength / 2);
     for (let i = 0; i < maxLength; i += 2) {
-        hexBytes[i / 2] = parseInt(data.slice(i, i + 2), 16);
+        const high = hexCharLookupTable[data.charCodeAt(i)];
+        const low = hexCharLookupTable[data.charCodeAt(i + 1)];
+        if (high === -1 || low === -1) {
+            throw new Error('Invalid hex string: contains invalid characters');
+        }
+        hexBytes[i / 2] = (high << 4) | low;
     }
 
     return hexBytes;
