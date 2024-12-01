@@ -24,8 +24,8 @@
             "node"
         ],
         "paths": {
-            "@modules/*": [
-                "./modules/*"
+            "@structs/*": [
+                "./structs/*"
             ],
             "@providers/*": [
                 "./providers/*"

@@ -9,7 +9,7 @@ module.exports = {
     ],
     testPathIgnorePatterns: [ '/lib/', '/node_modules/', '/dist/' ],
     moduleNameMapper: {
-        '^@services/(.*)$': '<rootDir>/src/services/$1',
+        '^@structs/(.*)$': '<rootDir>/src/structs/$1',
         '^@providers/(.*)$': '<rootDir>/src/providers/$1',
         '^@components/(.*)$': '<rootDir>/src/components/$1',
     },
