@@ -145,11 +145,13 @@ export function encodeASCII(bytes: Uint8Array, length?: number): string {
         throw new Error('encodeASCII input must be a Uint8Array');
     }
 
-    // Clamp the length to the array bounds if specified.
+    let result = '';
     const maxLength = length !== undefined ? Math.min(length, bytes.length) : bytes.length;
+    for (let i = 0; i < maxLength; i++) {
+        result += String.fromCharCode(bytes[i]);
+    }
 
-    // Process only up to the specified length.
-    return String.fromCharCode(...bytes.slice(0, maxLength).map(byte => byte & 0xFF));
+    return result;
 }
 
 /**
@@ -196,10 +198,15 @@ export function decodeASCII(data: string, length?: number): Uint8Array {
     // Clamp the length to the array bounds if specified.
     const maxLength = length !== undefined ? Math.min(length, data.length) : data.length;
 
-    // Process only up to the specified length.
-    return new Uint8Array(
-        Array.from(data.slice(0, maxLength), char => char.charCodeAt(0) & 0xFF)
-    );
+    // Preallocate the Uint8Array.
+    const output = new Uint8Array(maxLength);
+
+    // Fill the Uint8Array directly.
+    for (let i = 0; i < maxLength; i++) {
+        output[i] = data.charCodeAt(i);
+    }
+
+    return output;
 }
 
 /**
