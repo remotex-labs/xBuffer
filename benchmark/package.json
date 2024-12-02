@@ -1,0 +1,20 @@
+{
+    "name": "benchmark",
+    "main": "dist/index.js",
+    "version": "1.0.0",
+    "keywords": [],
+    "author": "Garefild",
+    "license": "ISC",
+    "description": "",
+    "scripts": {
+        "start": "xbuild --ntc index.ts && node dist/index.js"
+    },
+    "dependencies": {
+        "buffer": "latest",
+        "benchmark": "latest",
+        "@types/node": "latest",
+        "@types/benchmark": "latest",
+        "@remotex-labs/xbuild": "latest",
+        "@remotex-labs/xbuffer": "latest"
+    }
+}

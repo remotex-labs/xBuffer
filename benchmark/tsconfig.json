@@ -22,29 +22,13 @@
         ],
         "types": [
             "node"
-        ],
-        "paths": {
-            "@structs/*": [
-                "./structs/*"
-            ],
-            "@providers/*": [
-                "./providers/*"
-            ],
-            "@components/*": [
-                "./components/*"
-            ]
-        }
+        ]
     },
     "include": [
-        "src/**/*",
-        "includes/*"
+        "**/*",
     ],
     "exclude": [
         "dist",
-        "benchmark/*",
         "node_modules",
-        "**/*.spec.ts",
-        "xbuild.cjs.ts",
-        "xbuild.config.ts"
     ]
 }

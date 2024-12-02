@@ -30,3 +30,18 @@ const buffer = xBuffer.from('Hello, world!', 'utf-8');
 const byteArray = new Uint8Array([72, 101, 108, 108, 111]);
 const bufferFromArray = xBuffer.from(byteArray);
 ```
+
+# Benchmark
+nBuffer: https://github.com/feross/buffer
+xBuffer: https://github.com/remotex-lab/xBuffer
+
+## build
+```bash
+cd ./benchmark
+docker build -t benchmark .
+```
+
+## run 
+```bash
+docker run -it benchmark
+```

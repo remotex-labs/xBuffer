@@ -94,6 +94,7 @@ export default tseslint.config(
             'dist/*',
             '**/*.js',
             'includes/*',
+            'benchmark/*',
             'jest.config.cjs',
             'eslint.config.mjs'
         ]
