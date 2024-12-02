@@ -98,5 +98,10 @@ To run the benchmark:
 docker run -it benchmark
 ```
 
+> String size is 300K 
+
+![image](benchmark/benchmark-1.png)
+![image](benchmark/benchmark-2.png)
+
 # Contributing
 Contributions are welcome! If you'd like to improve `xBuffer`, feel free to open an issue or submit a pull request.
