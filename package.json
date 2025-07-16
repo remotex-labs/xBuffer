@@ -27,7 +27,7 @@
         "compatible"
     ],
     "engines": {
-        "node": ">=18"
+        "node": ">=20"
     },
     "exports": {
         "./package.json": "./package.json",
