@@ -1,5 +1,12 @@
 # xBuffer
 
+[![npm version](https://img.shields.io/badge/Documentation-orange?logo=typescript&logoColor=f5f5f5)](https://remotex-labs.github.io/xBuffer/)
+[![npm version](https://img.shields.io/npm/v/@remotex-labs/xbuffer.svg)](https://www.npmjs.com/package/@remotex-labs/xbuffer)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
+[![Node.js CI](https://github.com/remotex-labs/xBuffer/actions/workflows/node.js.yml/badge.svg)](https://github.com/remotex-labs/xBuffer/actions/workflows/node.js.yml)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/remotex-labs/xBuffer)
+
+
 `xBuffer`
 xBuffer is a lightweight JavaScript library that provides buffer-like functionality for browsers, similar to Node.js's `Buffer`. 
 It offers efficient manipulation of binary data and supports common encoding and decoding operations, such as base64, hex, and UTF-8.
