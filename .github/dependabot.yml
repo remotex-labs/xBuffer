@@ -1,15 +1,20 @@
-# .github/dependabot.yml
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 version: 2
 updates:
-    -   package-ecosystem: "npm"
-        directory: "/"
-        schedule:
-            interval: "monthly"
-        commit-message:
-            prefix: fix
-            prefix-development: chore
-            include: scope
-        open-pull-requests-limit: 10
-        labels:
-            - "dependencies"
-            - "npm"
+  - package-ecosystem: "npm"
+    directory: "/"
+    open-pull-requests-limit: 0
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    open-pull-requests-limit: 0
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
