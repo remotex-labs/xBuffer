@@ -1,32 +1,43 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
+name: 🐞 Bug Report
+title: 🐞 Bug Report
+about: Something is broken
+labels: [ "bug", "needs triage" ]
 ---
 
-### This is a...
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-* [ ] feature request
-* [ ] bug report
-* [ ] usage question
+**Reproduction**
 
-### Environment
+```typescript
+// Minimal code that reproduces the issue
+import {} from '@remotex-labs/xbuffer';
+```
 
-NodeJS Version:
-Typescript Version:
-OS:
+**Expected behavior**
+What you expected to happen.
 
-### Link to repo showing the issue
-(optional, but helps _a lot_)
+**Actual behavior**
+What actually happened. 
+Include the full error message and stack trace if applicable.
 
-### Expected Behaviour:
+```
+Error: ...
+    at ...
+```
 
-### Actual Behaviour:
+**Environment**
 
-### Stack Trace/Error Message:
+|                                 | |
+|---------------------------------|-|
+| `@remotex-labs/xbuffer` version | |
+| OS                              | |
+| Bundler                         | |
+| Node.js version                 | |
 
-### Additional Notes:
-(optional)
+**Checklist**
+
+- [ ] I have searched for existing issues, and this is not a duplicate
+- [ ] I am using the latest published version
+- [ ] I have included a minimal reproduction above
