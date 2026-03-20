@@ -3,19 +3,16 @@
         "strict": true,
         "target": "ESNext",
         "module": "ESNext",
-        "baseUrl": "./src",
         "outDir": "dist",
-        "rootDir": ".",
+        "rootDir": "src",
         "declaration": true,
         "skipLibCheck": true,
-        "importHelpers": true,
-        "isolatedModules": false,
-        "esModuleInterop": false,
+        "esModuleInterop": true,
+        "isolatedModules": true,
         "moduleDetection": "force",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
+        "emitDeclarationOnly": true,
         "lib": [
             "DOM",
             "ESNext"
@@ -25,18 +22,18 @@
         ],
         "paths": {
             "@structs/*": [
-                "./structs/*"
+                "./src/structs/*"
             ],
             "@providers/*": [
-                "./providers/*"
+                "./src/providers/*"
             ],
             "@components/*": [
-                "./components/*"
+                "./src/components/*"
             ]
         }
     },
     "include": [
-        "src/**/*",
+        "src/index.ts",
         "includes/*"
     ],
     "exclude": [

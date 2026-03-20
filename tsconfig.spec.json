@@ -3,13 +3,15 @@
     "compilerOptions": {
         "types": [
             "node",
-            "jest"
+            "@remotex-labs/xjet"
         ]
     },
     "include": [
-        "src/**/*"
+        "**/*.spec.ts",
+        "includes/global.d.ts"
     ],
     "exclude": [
+        "dist",
         "node_modules"
     ]
 }
