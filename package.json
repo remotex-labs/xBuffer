@@ -7,8 +7,9 @@
     "author": "Garefild",
     "version": "v1.0.0-local",
     "license": "Mozilla Public License Version 2.0",
-    "description": "A library with Node.js Buffer api for the browser",
     "homepage": "https://github.com/remotex-lab/xStruct",
+    "description": "A library with Node.js Buffer api for the browser",
+    "sideEffects": false,
     "repository": {
         "type": "git",
         "url": "git+https://github.com/remotex-lab/xBuffer.git"
@@ -30,16 +31,10 @@
         "node": ">=20"
     },
     "exports": {
-        "./package.json": "./package.json",
         ".": {
-            "import": {
-                "types": "./dist/index.d.ts",
-                "default": "./dist/esm/index.js"
-            },
-            "require": {
-                "types": "./dist/index.d.ts",
-                "default": "./dist/cjs/index.js"
-            }
+            "types": "./dist/index.d.ts",
+            "import": "./dist/esm/index.js",
+            "require": "./dist/cjs/index.js"
         }
     },
     "files": [
@@ -48,14 +43,24 @@
         "README.md"
     ],
     "scripts": {
-        "dev": "xBuild -w",
-        "test": "jest",
-        "build": "xBuild",
-        "test:coverage": "jest --coverage",
-        "lint": "xbuild --tc && eslint . -c ./eslint.config.mjs",
-        "ci:test": "jest",
-        "ci:clean": "rm -rf ./dist",
-        "ci:build": "npm run build"
+        "dev":              "xBuild -w",
+        "build":            "xBuild",
+        "build:clean":      "rm -rf ./dist && xBuild",
+
+        "test":             "xjet",
+        "test:coverage":    "xjet --coverage",
+
+        "lint":             "pnpm lint:md && pnpm lint:eslint && pnpm lint:typescript",
+        "lint:md":          "markdownlint \"**/*.md\" --ignore node_modules",
+        "lint:eslint":      "eslint . -c ./eslint.config.mjs",
+        "lint:typescript":  "xBuild --tc",
+
+        "docs:dev":         "vitepress dev docs",
+        "docs:build":       "vitepress build docs",
+        "docs:preview":     "vitepress preview docs",
+
+        "ci":              "pnpm lint && pnpm test && pnpm build:clean",
+        "prepublishOnly":  "pnpm lint && pnpm test && pnpm build:clean"
     },
     "devDependencies": {
         "jest": "^29.7.0",
