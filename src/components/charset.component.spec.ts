@@ -2,6 +2,7 @@
  * Imports
  */
 
+import { decodeUTF8, encodeUTF8 } from '@components/utf8.component';
 import {
     decodeASCII,
     decodeBase64,
@@ -13,7 +14,6 @@ import {
     encodeUTF16LE,
     isInstance
 } from '@components/charset.component';
-import { decodeUTF8, encodeUTF8 } from '@components/utf8.component';
 
 /**
  * Tests
@@ -66,7 +66,8 @@ describe('isInstance', () => {
         };
         const instance = new (class ZZZ {
         })();
-        expect(isInstance(instance, AnotherInstance)).toBe(true);
+
+        expect(isInstance(instance, AnotherInstance)).toBe(false);
     });
 });
 

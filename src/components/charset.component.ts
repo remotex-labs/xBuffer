@@ -44,7 +44,6 @@ import {
  *   If `obj` is `null` or `undefined`, it will safely return `false`.
  *
  * @private
- * @static
  * @param obj - The object to check.
  * @param type - The constructor or class type to check against.
  * @returns A boolean indicating whether `obj` is an instance of `type`.
@@ -103,7 +102,7 @@ export function isInstance(obj: unknown, type: any): boolean {
  * @param length - (Optional) The maximum number of bytes to process.
  * Defaults to the entire array length.
  * @returns An ASCII string representation of the encoded bytes.
- * @throws {Error} If the input is not a `Uint8Array`.
+ * @throws Error - If the input is not a `Uint8Array`.
  */
 
 export function encodeASCII(bytes: Uint8Array, length?: number): string {
@@ -153,7 +152,7 @@ export function encodeASCII(bytes: Uint8Array, length?: number): string {
  * @param length - (Optional) The maximum number of characters to process.
  * Defaults to the entire string length.
  * @returns A `Uint8Array` containing the byte representation of the ASCII string.
- * @throws {Error} If the input is not a string.
+ * @throws Error - If the input is not a string.
  */
 
 export function decodeASCII(data: string, length?: number): Uint8Array {
@@ -206,7 +205,7 @@ export function decodeASCII(data: string, length?: number): Uint8Array {
  * @param bytes - The `Uint8Array` to encode into a UTF-16 little-endian string.
  * @param length - (Optional) The maximum number of bytes to process from the `Uint8Array`. Defaults to the entire array length.
  * @returns A string corresponding to the UTF-16 little-endian encoding of the byte sequence.
- * @throws {Error} If the `bytes` parameter is not a `Uint8Array`.
+ * @throws Error - If the `bytes` parameter is not a `Uint8Array`.
  */
 
 export function encodeUTF16LE(bytes: Uint8Array, length?: number): string {
@@ -268,7 +267,7 @@ export function encodeUTF16LE(bytes: Uint8Array, length?: number): string {
  * @param length - (Optional) The number of bytes to decode from the string.
  * Defaults to the full length of the string in bytes.
  * @returns A `Uint8Array` corresponding to the UTF-16 little-endian byte sequence.
- * @throws {Error} If the `data` parameter is not a string.
+ * @throws Error - If the `data` parameter is not a string.
  */
 
 export function decodeUTF16LE(data: string, length?: number): Uint8Array {
@@ -328,7 +327,7 @@ export function decodeUTF16LE(data: string, length?: number): Uint8Array {
  * @param length - (Optional) The number of bytes to encode.
  * Defaults to the full length of the array.
  * @returns A string representing the hexadecimal encoding of the bytes.
- * @throws {Error} If the `bytes` parameter is not a `Uint8Array`.
+ * @throws Error - If the `bytes` parameter is not a `Uint8Array`.
  */
 
 export function encodeHEX(bytes: Uint8Array, length?: number): string {
@@ -383,7 +382,7 @@ export function encodeHEX(bytes: Uint8Array, length?: number): string {
  * @param length - (Optional) The number of bytes to decode.
  * Defaults to the entire string.
  * @returns A `Uint8Array` containing the decoded byte values.
- * @throws {Error} If the input is not a string or contains non-hex characters.
+ * @throws Error - If the input is not a string or contains non-hex characters.
  */
 
 export function decodeHEX(data: string, length?: number): Uint8Array {
@@ -451,7 +450,7 @@ export function decodeHEX(data: string, length?: number): Uint8Array {
  * @param length - (Optional) The number of bytes to encode.
  * Defaults to the full length of the array.
  * @returns A Base64 encoded string.
- * @throws {Error} If the `bytes` parameter is not a `Uint8Array`.
+ * @throws Error - If the `bytes` parameter is not a `Uint8Array`.
  */
 
 export function encodeBase64(bytes: Uint8Array, length?: number): string {
@@ -522,7 +521,7 @@ export function encodeBase64(bytes: Uint8Array, length?: number): string {
  * @param length - (Optional) The number of bytes to decode.
  * Defaults to the entire string.
  * @returns A `Uint8Array` containing the decoded byte values.
- * @throws {Error} If the input is not a string.
+ * @throws Error - If the input is not a string.
  */
 
 export function decodeBase64(data: string, length?: number): Uint8Array {

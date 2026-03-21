@@ -6,9 +6,8 @@
 [![Node.js CI](https://github.com/remotex-labs/xBuffer/actions/workflows/node.js.yml/badge.svg)](https://github.com/remotex-labs/xBuffer/actions/workflows/node.js.yml)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/remotex-labs/xBuffer)
 
-
 `xBuffer`
-xBuffer is a lightweight JavaScript library that provides buffer-like functionality for browsers, similar to Node.js's `Buffer`. 
+xBuffer is a lightweight JavaScript library that provides buffer-like functionality for browsers, similar to Node.js's `Buffer`.
 It offers efficient manipulation of binary data and supports common encoding and decoding operations, such as base64, hex, and UTF-8.
 
 ## Features
@@ -21,6 +20,7 @@ It offers efficient manipulation of binary data and supports common encoding and
 ## Installation
 
 To install `xBuffer`, use either npm or yarn:
+
 ```bash
 npm install @remotex-labs/xbuffer
 # or
@@ -40,7 +40,9 @@ const bufferFromArray = Buffer.from(byteArray);
 ```
 
 ## Encoding and Decoding
+
 You can use `xBuffer` for common encoding and decoding tasks, such as converting binary data to base64 or hex:
+
 ```typescript
 // Encode a buffer to base64
 const base64String = buffer.toString('base64');
@@ -55,9 +57,12 @@ const hexString = buffer.toString('hex');
 const decodedHexBuffer = Buffer.from(hexString, 'hex');
 ```
 
-# Global Functions
+## Global Functions
+
 ## `setGlobalBuffer`
+
 This function sets the global `Buffer` object on `globalThis`, making it available throughout the environment. It is useful when `Buffer` is not natively available, such as in certain browser contexts.
+
 ```typescript
 import { setGlobalBuffer } from '@remotex-labs/xbuffer';
 
@@ -69,8 +74,10 @@ console.log(Buffer); // Logs the global Buffer object
 ```
 
 ## `supportUtilInspect`
-This function modifies the global `console.log` to support custom inspection of objects that implement the `util.inspect.custom` symbol. 
+
+This function modifies the global `console.log` to support custom inspection of objects that implement the `util.inspect.custom` symbol.
 It enables objects with custom inspection methods to be logged with their custom output.
+
 ```typescript
 import { supportUtilInspect } from '@remotex-labs/xbuffer';
 
@@ -86,12 +93,15 @@ const myObject = {
 console.log(myObject); // Logs: "Custom inspection logic here"
 ```
 
-# Benchmark
+## Benchmark
+
 For performance comparisons between xBuffer and other buffer libraries, you can check the libs:
-- nBuffer: https://github.com/feross/buffer
-- xBuffer: https://github.com/remotex-lab/xBuffer
+
+- nBuffer: <https://github.com/feross/buffer>
+- xBuffer: <https://github.com/remotex-lab/xBuffer>
 
 ## build
+
 To build the benchmark project:
 
 ```bash
@@ -99,16 +109,19 @@ cd ./benchmark
 docker build -t benchmark .
 ```
 
-## run 
+## run
+
 To run the benchmark:
+
 ```bash
 docker run -it benchmark
 ```
 
-> String size is 300K 
+> String size is 300K
 
 ![image](benchmark/benchmark-1.png)
 ![image](benchmark/benchmark-2.png)
 
-# Contributing
+## Contributing
+
 Contributions are welcome! If you'd like to improve `xBuffer`, feel free to open an issue or submit a pull request.

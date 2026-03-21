@@ -25,15 +25,15 @@ describe('read', () => {
         buffer = new DataViewProvider(arrayBuffer); // Mock your DataViewProvider class
     });
 
-    describe.each([
+    describe.each(
         [ 'readUIntLE', 0x0201, 0x040302, 0x04030201, 0x0504030201, 0x060504030201, 0x80, 0xf218, 0xffff ],
         [ 'readUIntBE', 0x0102, 0x020304, 0x01020304, 0x0102030405, 0x010203040506, 0x80, 0x18f2, 0xffff ],
         [ 'readIntLE', 0x0201, 0x040302, 0x04030201, 0x0504030201, 0x060504030201, -128, -0xde8, -1 ], // Little-endian test cases for signed integers
         [ 'readIntBE', 0x0102, 0x020304, 0x01020304, 0x0102030405, 0x010203040506, -128, 0x18f2, -1 ] // Big-endian test cases for signed integers
-    ])('when the function is %s', (readFnName, ...expectedValues) => {
+    )('when the function is %s', ([ readFnName, ...expectedValues ]) => {
         let readFn: (offset: number, byteLength: number) => number;
         beforeAll(() => {
-            readFn = <any> buffer[<any> readFnName];
+            readFn = <any>buffer[<any>readFnName];
         });
 
         test('reads a single byte correctly', () => {
@@ -84,7 +84,7 @@ describe('read', () => {
         });
 
         test('does not modify the original buffer', () => {
-            const dataView = (<any> buffer).dataView;
+            const dataView = (<any>buffer).dataView;
             const originalData = new Uint8Array(dataView.buffer).slice();
             readFn.call(buffer, 0, 4); // Perform a read
             expect(new Uint8Array(dataView.buffer)).toEqual(originalData); // Ensure data is unchanged
@@ -104,15 +104,15 @@ describe('write', () => {
         buffer = new DataViewProvider(arrayBuffer); // Mock your DataViewProvider class
     });
 
-    describe.each([
+    describe.each(
         [ 'writeUIntLE', 0x0201, 0x040302, 0x04030201, 0x0504030201, 0x060504030201 ], // Little-endian test cases for unsigned integers
         [ 'writeUIntBE', 0x0102, 0x020304, 0x01020304, 0x0102030405, 0x010203040506 ], // Big-endian test cases for unsigned integers
         [ 'writeIntLE', 0x0201, 0x040302, 0x04030201, 0x0504030201, 0x060504030201 ],  // Little-endian test cases for signed integers
         [ 'writeIntBE', 0x0102, 0x020304, 0x01020304, 0x0102030405, 0x010203040506 ]   // Big-endian test cases for signed integers
-    ])('when the function is %s', (writeFnName, ...expectedValues) => {
+    )('when the function is %s', ([ writeFnName, ...expectedValues ]) => {
         let writeFn: (value: number, offset: number, byteLength: number) => number;
         beforeAll(() => {
-            writeFn = <any> DataViewProvider.prototype[<any> writeFnName];
+            writeFn = <any>DataViewProvider.prototype[<any>writeFnName];
         });
 
         test('writes a single byte correctly', () => {
@@ -181,7 +181,7 @@ describe('BufferSwap methods', () => {
 
     beforeEach(() => {
         bufferSwap = new DataViewProvider(16);
-        dataView = (<any> bufferSwap).dataView;
+        dataView = (<any>bufferSwap).dataView;
     });
 
     test('swap16 should swap 16-bit values correctly', () => {
@@ -255,31 +255,31 @@ describe('Buffer reading functions', () => {
     });
 
     // Test cases for each function
-    test.each([
+    test.each(
         [ 'readUInt8', 0, 0x12 ],
         [ 'readUInt16LE', 1, 0x1234 ],
         [ 'readUInt16BE', 3, 0x5678 ],
         [ 'readUInt32LE', 5, 0x9ABCDEF0 ],
         [ 'readUInt32BE', 9, 0x12345678 ],
         [ 'readBigUInt64LE', 13, BigInt(0x1234567890ABCDEF) ]
-    ])('%s should read correctly from buffer at default offset', (method, offset, expectedValue) => {
+    )('%s should read correctly from buffer at default offset', ([ method, offset, expectedValue ]) => {
         const result = dataView[method](offset);
         expect(result).toBe(expectedValue);
     });
 
-    test.each([
+    test.each(
         [ 'readUInt8', 0, 0x12 ],
         [ 'readUInt16LE', 1, 0x1234 ],
         [ 'readUInt16BE', 3, 0x5678 ],
         [ 'readUInt32LE', 5, 0x9ABCDEF0 ],
         [ 'readUInt32BE', 9, 0x12345678 ],
         [ 'readBigUInt64LE', 13, BigInt(0x1234567890ABCDEF) ]
-    ])('%s should read correctly from buffer at custom offset', (method, offset, expectedValue) => {
+    )('%s should read correctly from buffer at custom offset', ([ method, offset, expectedValue ]) => {
         const result = dataView[method](offset);
         expect(result).toBe(expectedValue);
     });
 
-    test.each([
+    test.each(
         [ 'readInt8', 0, 0x12 ],
         [ 'readInt16LE', 1, 0x1234 ],
         [ 'readInt16BE', 3, 0x5678 ],
@@ -287,22 +287,22 @@ describe('Buffer reading functions', () => {
         [ 'readInt32BE', 9, 0x12345678 ],
         [ 'readBigInt64LE', 13, BigInt('0x1234567890abce00') ],
         [ 'readBigInt64BE', 13, BigInt('0xceab9078563412') ]
-    ])('%s should handle signed reads correctly', (method, offset, expectedValue) => {
+    )('%s should handle signed reads correctly', ([ method, offset, expectedValue ]) => {
         const result = dataView[method](offset);
         expect(result).toBe(expectedValue);
     });
 
-    test.each([
+    test.each(
         [ 'readFloatLE', 5, -7.811515253664679e-23 ],  // You might need to adjust this based on your data
         [ 'readFloatBE', 9, 5.690456613903524e-28 ],  // Adjust this as well
         [ 'readDoubleLE', 13, 5.626349108908533e-221 ],  // Adjust for double precision
         [ 'readDoubleBE', 9, 5.626346736689188e-221 ]  // Same as for readFloatBE
-    ])('%s should read correctly from the buffer', (method, offset, expectedValue) => {
+    )('%s should read correctly from the buffer', ([ method, offset, expectedValue ]) => {
         const result = dataView[method](offset);
         expect(result).toBe(expectedValue);
     });
 
-    test.each([
+    test.each(
         [ 'readUInt8', 22 ],  // Beyond buffer size
         [ 'readUInt16LE', 20 ],  // Beyond buffer size
         [ 'readUInt32LE', 18 ],  // Beyond buffer size
@@ -310,7 +310,7 @@ describe('Buffer reading functions', () => {
         [ 'readBigUInt64BE', 15 ],  // Beyond buffer size
         [ 'readInt8', 21 ],  // Beyond buffer size
         [ 'readFloatLE', 18 ]  // Beyond buffer size
-    ])('%s should throw an error for out-of-bounds offset', (method, offset) => {
+    )('%s should throw an error for out-of-bounds offset', ([ method, offset ]) => {
         expect(() => {
             dataView[method](offset);
         }).toThrow(RangeError);  // or the specific error you're expecting
@@ -328,7 +328,7 @@ describe('Buffer writing functions', () => {
     });
 
     // Test cases for each write function
-    test.each([
+    test.each(
         [ 'UInt8', 0, 0x12, 1 ],  // Value 0x12 at offset 0, expect 1 byte written
         [ 'UInt16LE', 1, 0x1234, 2 ],  // Little-endian, expect 2 bytes written
         [ 'UInt16BE', 3, 0x5678, 2 ],  // Big-endian, expect 2 bytes written
@@ -336,7 +336,7 @@ describe('Buffer writing functions', () => {
         [ 'UInt32BE', 9, 0x12345678, 4 ],  // Big-endian, expect 4 bytes written
         [ 'BigUInt64LE', 13, BigInt(0x1234567890ABCDEF), 8 ],  // Little-endian, expect 8 bytes written
         [ 'BigUInt64BE', 13, BigInt(0x1234567890ABCDEF), 8 ]  // Big-endian, expect 8 bytes written
-    ])('%s should write correctly to buffer at default offset', (method, offset, value, expectedBytes) => {
+    )('%s should write correctly to buffer at default offset', ([ method, offset, value, expectedBytes ]) => {
         const result = dataView[`write${ method }`](value, offset);
         const read = dataView[`read${ method }`](offset);
         expect(result).toBe(expectedBytes + offset);  // Expect the number of bytes written
@@ -344,7 +344,7 @@ describe('Buffer writing functions', () => {
     });
 
     // Test cases for writing signed numbers
-    test.each([
+    test.each(
         [ 'Int8', 0, 0x12, 1 ],  // Value 0x12 at offset 0, expect 1 byte written
         [ 'Int16LE', 1, 0x1234, 2 ],  // Little-endian, expect 2 bytes written
         [ 'Int16BE', 3, 0x5678, 2 ],  // Big-endian, expect 2 bytes written
@@ -352,7 +352,7 @@ describe('Buffer writing functions', () => {
         [ 'Int32BE', 9, 0x12345678, 4 ],  // Big-endian, expect 4 bytes written
         [ 'BigInt64LE', 13, BigInt(0x1234567890ABCDEF), 8 ],  // Little-endian, expect 8 bytes written
         [ 'BigInt64BE', 13, BigInt(0x1234567890ABCDEF), 8 ]  // Big-endian, expect 8 bytes written
-    ])('%s should handle signed writes correctly', (method, offset, value, expectedBytes) => {
+    )('%s should handle signed writes correctly', ([ method, offset, value, expectedBytes ]) => {
         const result = dataView[`write${ method }`](value, offset);
         const read = dataView[`read${ method }`](offset);
         expect(result).toBe(expectedBytes + offset);  // Expect the number of bytes written
@@ -360,12 +360,12 @@ describe('Buffer writing functions', () => {
     });
 
     // Test cases for floating point writes
-    test.each([
+    test.each(
         [ 'FloatLE', 5, -7.811515253664679e-23, 4 ],  // Adjust this based on your data
         [ 'FloatBE', 9, 5.690456613903524e-28, 4 ],  // Adjust this as well
         [ 'DoubleLE', 13, 5.626349108908533e-221, 8 ],  // Adjust for double precision
         [ 'DoubleBE', 9, 5.626346736689188e-221, 8 ]  // Same as for writeFloatBE
-    ])('%s should write floating-point numbers correctly to buffer', (method, offset, value, expectedBytes) => {
+    )('%s should write floating-point numbers correctly to buffer', ([ method, offset, value, expectedBytes ]) => {
         const result = dataView[`write${ method }`](value, offset);
         const read = dataView[`read${ method }`](offset);
         expect(result).toBe(expectedBytes + offset);  // Expect the number of bytes written
@@ -373,7 +373,7 @@ describe('Buffer writing functions', () => {
     });
 
     // Test for out-of-bounds offsets
-    test.each([
+    test.each(
         [ 'writeUInt8', 21, 0x12 ],  // Beyond buffer size
         [ 'writeUInt16LE', 20, 0x1234 ],  // Beyond buffer size
         [ 'writeUInt32LE', 18, 0x9ABCDEF0 ],  // Beyond buffer size
@@ -381,18 +381,18 @@ describe('Buffer writing functions', () => {
         [ 'writeBigUInt64BE', 15, BigInt(0x1234567890ABCDEF) ],  // Beyond buffer size
         [ 'writeInt8', 21, 0x12 ],  // Beyond buffer size
         [ 'writeFloatLE', 18, 3.14 ]  // Beyond buffer size
-    ])('%s should throw an error for out-of-bounds offset', (method, offset, value) => {
+    )('%s should throw an error for out-of-bounds offset', ([ method, offset, value ]) => {
         expect(() => {
             dataView[method](value, offset);
         }).toThrow(RangeError);  // or the specific error you're expecting
     });
 
-    test.each([
+    test.each(
         [ 'writeUInt8', 21, '@0x12' ],
         [ 'writeUInt16LE', 20, '@0x1234' ],
         [ 'writeUInt32LE', 18, '@0x9ABCDEF0' ],
         [ 'writeInt8', 21, '@0x12' ]  // Beyond buffer size
-    ])('%s should throw an error for NaN', (method, offset, value) => {
+    )('%s should throw an error for NaN', ([ method, offset, value ]) => {
         expect(() => {
             dataView[method](value, offset);
         }).toThrow(TypeError);  // or the specific error you're expecting
@@ -413,7 +413,7 @@ describe('Buffer endianness swap functions', () => {
         test('should throw RangeError for buffers with odd length', () => {
             const oddDataView = new DataViewProvider(3);
 
-            expect(() => oddDataView.swap16()).toThrowError(RangeError);
+            expect(() => oddDataView.swap16()).toThrow(RangeError);
         });
     });
 
@@ -430,24 +430,28 @@ describe('Buffer endianness swap functions', () => {
         test('should throw RangeError for buffers with length not divisible by 4', () => {
             const oddDataView = new DataViewProvider(7);
 
-            expect(() => oddDataView.swap32()).toThrowError(RangeError);
+            expect(() => oddDataView.swap32()).toThrow(RangeError);
         });
     });
 
     // swap64 Tests
     describe('swap64', () => {
         test('should swap byte order of each 64-bit element', () => {
-            const dataView = new DataViewProvider([ 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10 ]);
+            const dataView = new DataViewProvider([
+                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
+            ]);
             dataView.swap64();
 
             // Expect the buffer to swap byte order: [0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x10, 0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09]
-            expect(dataView.buffer).toEqual(new Uint8Array([ 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x10, 0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09 ]).buffer);
+            expect(dataView.buffer).toEqual(new Uint8Array([
+                0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x10, 0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09
+            ]).buffer);
         });
 
         test('should throw RangeError for buffers with length not divisible by 8', () => {
             const oddDataView = new DataViewProvider(15);
 
-            expect(() => oddDataView.swap64()).toThrowError(RangeError);
+            expect(() => oddDataView.swap64()).toThrow(RangeError);
         });
     });
 });
