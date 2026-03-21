@@ -224,7 +224,7 @@ function encodeFourByteSequence(bytes: number[]): string {
  *
  * @param codePoint - The Unicode code point to encode (integer between 0 and 0x10FFFF).
  * @returns An array of integers representing the UTF-8 encoded bytes of the code point.
- * @throws {RangeError} Throws an error if the code point is outside the valid Unicode range.
+ * @throws RangeError - Throws an error if the code point is outside the valid Unicode range.
  */
 
 function decodeCodePoint(codePoint: number): Array<number> {
@@ -301,7 +301,7 @@ function decodeCodePoint(codePoint: number): Array<number> {
  * @param bytes - The `Uint8Array` of bytes to encode as a UTF-8 string.
  * @param length - An optional maximum number of bytes to process.
  * @returns A UTF-8 string encoded from the byte array.
- * @throws {Error} Throws an error if `bytes` is not a `Uint8Array`.
+ * @throws Error - Throws an error if `bytes` is not a `Uint8Array`.
  */
 
 export function encodeUTF8(bytes: Uint8Array, length?: number): string {
@@ -377,7 +377,7 @@ export function encodeUTF8(bytes: Uint8Array, length?: number): string {
  * @param data - The UTF-8 string to decode into bytes.
  * @param length - An optional maximum number of characters to decode.
  * @returns A `Uint8Array` containing the decoded bytes.
- * @throws {Error} Throws an error if `data` contains invalid surrogate pairs.
+ * @throws Error - Throws an error if `data` contains invalid surrogate pairs.
  */
 
 export function decodeUTF8(data: string, length?: number): Uint8Array {

@@ -2,7 +2,7 @@
  * Import will remove at compile time
  */
 
-import type { primitiveInputType } from '@providers/interfaces/buffer.interfaces';
+import type { PrimitiveInputType, WithImplicitCoercionType } from '@providers/interfaces/buffer.interfaces';
 
 /**
  * Imports
@@ -10,17 +10,8 @@ import type { primitiveInputType } from '@providers/interfaces/buffer.interfaces
 
 import { DataViewProvider } from '@providers/data-view.provider';
 import { decodeUTF8, encodeUTF8 } from '@components/utf8.component';
-import {
-    encodeHEX,
-    decodeHEX,
-    isInstance,
-    encodeASCII,
-    decodeASCII,
-    decodeBase64,
-    encodeBase64,
-    decodeUTF16LE,
-    encodeUTF16LE
-} from '@components/charset.component';
+import { decodeBase64, encodeBase64, decodeUTF16LE, encodeUTF16LE } from '@components/charset.component';
+import { encodeHEX, decodeHEX, isInstance, encodeASCII, decodeASCII } from '@components/charset.component';
 
 export class Buffer extends DataViewProvider {
     /**
@@ -60,7 +51,7 @@ export class Buffer extends DataViewProvider {
      * - **Input**:
      *   - `string`: A string to be converted into a buffer.
      *   - `Uint8Array | readonly number[]`: A typed array or regular array representing raw binary data.
-     *   - `WithImplicitCoercion<string>`: A string to be encoded with the specified `encoding` format.
+     *   - `WithImplicitCoercionType<string>`: A string to be encoded with the specified `encoding` format.
      *   - `ArrayBuffer | SharedArrayBuffer`: A low-level binary data object.
      *   - `byteOffset` (optional): A starting index for creating the buffer from an `ArrayBuffer`.
      *   - `length` (optional): The length of the resulting buffer when working with an `ArrayBuffer`.
@@ -84,8 +75,8 @@ export class Buffer extends DataViewProvider {
 
     static override from(value: Uint8Array | readonly number[]): Buffer;
     static override from(value: string | Uint8Array | readonly number[]): Buffer;
-    static override from(value: WithImplicitCoercion<string>, encoding: BufferEncoding): Buffer;
-    static override from(arrayBuffer: WithImplicitCoercion<ArrayBuffer | SharedArrayBuffer | ArrayBufferLike>, byteOffset?: number, length?: number): Buffer;
+    static override from(value: WithImplicitCoercionType<string>, encoding: BufferEncoding): Buffer;
+    static override from(arrayBuffer: WithImplicitCoercionType<ArrayBuffer | SharedArrayBuffer | ArrayBufferLike>, byteOffset?: number, length?: number): Buffer;
     static override from(arg1: unknown, arg2?: BufferEncoding | number, length?: number): Buffer {
         if (typeof arg1 === 'string') {
             return new Buffer(this.decoding(arg1, <BufferEncoding> arg2));
@@ -124,7 +115,6 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - Throws a `TypeError` if any of the values provided are not valid numbers (i.e., not between 0 and 255).
      *
-     * @static
      * @param items - A series of numbers to be converted into a buffer.
      * @returns A new `Buffer` instance containing the provided byte values.
      * @throws TypeError if any value is not a valid number between 0 and 255.
@@ -145,7 +135,7 @@ export class Buffer extends DataViewProvider {
      * - **Input**:
      *   - `encoding`: A string representing the encoding type to be validated.
      *
-     * - **Output**: Returns a boolean (`true` or `false`) indicating whether the provided encoding is a valid `BufferEncoding`.
+     * - **Output**: Returns a boolean (`true` or `false`) indicating whether the provided encoding is a valid `BufferEncodingType`.
      *
      * ## Supported Encodings:
      * - **`'hex'`**: Hexadecimal encoding.
@@ -165,15 +155,12 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - This method does not throw any exceptions. It simply returns `true` or `false` based on the validity of the encoding.
      *
-     * @static
      * @param encoding - The encoding to check for validity.
      * @returns `true` if the encoding is valid, otherwise `false`.
      */
 
     static isEncoding(encoding: string): encoding is BufferEncoding {
-        return [
-            'hex', 'utf8', 'utf-8', 'ascii', 'latin1', 'binary', 'base64', 'ucs2', 'ucs-2', 'utf16le', 'utf-16le'
-        ].includes(encoding.toLowerCase());
+        return [ 'hex', 'utf8', 'utf-8', 'ascii', 'latin1', 'binary', 'base64', 'ucs2', 'ucs-2', 'utf16le', 'utf-16le' ].includes(encoding.toLowerCase());
     }
 
     /**
@@ -247,7 +234,6 @@ export class Buffer extends DataViewProvider {
      * - Throws a `TypeError` if the provided input is not a valid string, `ArrayBuffer`, or `ArrayBufferView`.
      * - If the encoding type is invalid, a `TypeError` is thrown when encoding the string.
      *
-     * @static
      * @param string - The input data (string, `ArrayBuffer`, or `ArrayBufferView`).
      * @param encoding - The encoding format for the string (default: `'utf-8'`).
      * @returns The byte length of the input data.
@@ -301,7 +287,6 @@ export class Buffer extends DataViewProvider {
      * - If the `list` is empty or `totalLength` is `0`, the method returns an empty `Buffer`.
      * - If `totalLength` is undefined, the method calculates the length by summing the lengths of all items in `list`.
      *
-     * @static
      * @param list - The array of `Uint8Array` or `Buffer` objects to concatenate.
      * @param totalLength - (Optional) The total length of the resulting `Buffer`. If not provided, it is computed from the sum of the input items.
      * @returns A `Buffer` containing the concatenated data.
@@ -360,7 +345,6 @@ export class Buffer extends DataViewProvider {
      * - Throws a `RangeError` if the `offset` is out of bounds (less than `0` or greater than or equal to the length of the `view`).
      * - Throws a `RangeError` if the `length` is invalid (e.g., it causes the copy operation to exceed the bounds of the `view`).
      *
-     * @static
      * @param view - The `TypedArray` or `ArrayBufferView` from which to copy the bytes.
      * @param offset - (Optional) The starting position to copy from. Defaults to `0`.
      * @param length - (Optional) The number of bytes to copy. Defaults to the remainder of the array.
@@ -423,7 +407,6 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - The method assumes that both inputs are valid `Buffer` instances. If either argument is not a `Buffer`, it will throw a `TypeError`.
      *
-     * @static
      * @param buffer1 - The first `Buffer` to compare.
      * @param buffer2 - The second `Buffer` to compare.
      * @returns A number (`-1`, `0`, or `1`) indicating the relative order of the buffers.
@@ -467,7 +450,6 @@ export class Buffer extends DataViewProvider {
      * - If the `fill` argument is a string, it will be encoded using the provided `encoding` (default: `'utf-8'`).
      * - If the `fill` argument is a `Uint8Array` or number, it will fill the buffer directly.
      *
-     * @static
      * @param size - The size of the buffer to allocate, in bytes.
      * @param fill - (Optional) The value to fill the buffer with (string, `Uint8Array`, or number).
      * @param encoding - (Optional) The encoding to use if the `fill` is a string (default: `'utf-8'`).
@@ -519,7 +501,6 @@ export class Buffer extends DataViewProvider {
      * - Throws a `TypeError` if the `size` argument is not a valid number.
      * - The returned buffer will not be zero-filled, and may contain sensitive or old data from previous allocations.
      *
-     * @static
      * @param size - The size of the buffer to allocate, in bytes.
      * @returns A new `Buffer` of the specified size, uninitialized.
      * @throws TypeError if the `size` argument is not a valid number.
@@ -578,13 +559,12 @@ export class Buffer extends DataViewProvider {
      * - Throws an `Error` if the `value` argument is neither a string, number, nor `Uint8Array`.
      * - Throws an `Error` if an invalid string encoding is used or if the string cannot be coerced into valid buffer values.
      *
-     * @instance
      * @returns `this` (the modified buffer).
      * @throws RangeError if `offset` or `end` are out of bounds.
      * @throws Error if `value` is of an invalid type or encoding is not valid.
      */
 
-    override fill(value: primitiveInputType, offset: number = 0, end?: number, encoding: BufferEncoding = 'utf-8'): this {
+    override fill(value: PrimitiveInputType, offset: number = 0, end?: number, encoding: BufferEncoding = 'utf-8'): this {
         if (end === undefined) {
             end = this.length;
         }
@@ -664,12 +644,11 @@ export class Buffer extends DataViewProvider {
      * - The method will perform a byte-by-byte comparison and return the index of the first match or `-1` if no match is found.
      * - The method throws a `RangeError` if `byteOffset` is out of bounds.
      *
-     * @instance
      * @returns The index (`the first occurrence`) of the value in the buffer, or `-1` if not found.
      * @throws RangeError if `byteOffset` is out of bounds.
      */
 
-    override indexOf(value: primitiveInputType, byteOffset: number = 0, encoding: BufferEncoding = 'utf-8'): number {
+    override indexOf(value: PrimitiveInputType, byteOffset: number = 0, encoding: BufferEncoding = 'utf-8'): number {
         const { preparedOffset, preparedValue } = this.prepareIndexOfParameters(value, byteOffset, encoding);
 
         if (preparedValue.length === 0) {
@@ -732,12 +711,11 @@ export class Buffer extends DataViewProvider {
      * - The method will perform a byte-by-byte comparison and return the index of the last match or `-1` if no match is found.
      * - The method throws a `RangeError` if `byteOffset` is out of bounds.
      *
-     * @instance
      * @returns The index (`the last occurrence`) of the value in the buffer, or `-1` if not found.
      * @throws RangeError if `byteOffset` is out of bounds.
      */
 
-    override lastIndexOf(value: primitiveInputType, byteOffset: number = 0, encoding: BufferEncoding = 'utf-8'): number {
+    override lastIndexOf(value: PrimitiveInputType, byteOffset: number = 0, encoding: BufferEncoding = 'utf-8'): number {
         const { preparedOffset, preparedValue } = this.prepareIndexOfParameters(value, byteOffset, encoding);
 
         if (preparedValue.length === 0) {
@@ -795,7 +773,6 @@ export class Buffer extends DataViewProvider {
      * - If the value is an empty string or `Buffer`, the method behaves as if `indexOf` is called with an empty value.
      * - The method will return `false` if the value is not found.
      *
-     * @instance
      * @returns `true` if the value is found in the buffer, `false` otherwise.
      */
 
@@ -833,7 +810,6 @@ export class Buffer extends DataViewProvider {
      * - Throws a `RangeError` if the `offset` or `length` is out of range (i.e., greater than the buffer length or negative).
      * - Throws a `TypeError` if the encoding type is unknown.
      *
-     * @instance
      * @param string - The string to write.
      * @param offset - (Optional) The offset at which to start writing (default is `0`).
      * @param length - (Optional) The length (number of bytes) to write (default is the remaining buffer space).
@@ -894,7 +870,6 @@ export class Buffer extends DataViewProvider {
      * - If the `start` or `end` values are out of bounds (negative or beyond the buffer's length), the method will automatically adjust to prevent errors.
      * - If the `end` is less than `start`, the subarray will be empty.
      *
-     * @instance
      * @param start - (Optional) The starting index for the subarray (default is `0`).
      * @param end - (Optional) The ending index for the subarray (default is the buffer's length).
      * @returns A new `Buffer` containing the subarray from the original buffer.
@@ -944,7 +919,6 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - Throws a `TypeError` if an unsupported encoding is provided.
      *
-     * @instance
      * @param encoding - The encoding format to use (default: `'utf-8'`).
      * @param start - (Optional) The starting index for slicing (default is `0`).
      * @param end - (Optional) The ending index for slicing (default is the buffer's length).
@@ -1000,12 +974,12 @@ export class Buffer extends DataViewProvider {
      *
      * - **Input**: None
      * - **Output**: Returns an object with the following structure:
-     *   ```ts
-     *   {
-     *     type: 'Buffer', // A string indicating the type of the object
-     *     data: Array<number> // An array of bytes (numbers) representing the buffer's content
-     *   }
-     *   ```
+     * ```ts
+     * {
+     *   type: 'Buffer', // A string indicating the type of the object
+     *   data: Array<number> // An array of bytes (numbers) representing the buffer's content
+     * }
+     * ```
      *
      * ## Example:
      *
@@ -1019,11 +993,10 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - This method does not throw any errors. It always returns a valid JSON object.
      *
-     * @instance
      * @returns An object containing the buffer's type (`'Buffer'`) and its data as an array of bytes.
      */
 
-    toJSON() {
+    toJSON(): Record<string, unknown> {
         return {
             type: 'Buffer',
             data: Array.from(this)
@@ -1059,7 +1032,6 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - Throws a `TypeError` if the `otherBuffer` argument is not an instance of `Buffer` or `Uint8Array`.
      *
-     * @instance
      * @param otherBuffer - The buffer or `Uint8Array` to compare with the current buffer.
      * @returns `true` if both buffers are equal, otherwise `false`.
      * @throws TypeError if the `otherBuffer` is not a `Buffer` or `Uint8Array`.
@@ -1122,7 +1094,6 @@ export class Buffer extends DataViewProvider {
      * - Throws a `TypeError` if the `target` is not an instance of `Buffer` or `Uint8Array`.
      * - Throws a `RangeError` if any of the specified offsets or lengths are out of bounds.
      *
-     * @instance
      * @param target - The buffer to compare against.
      * @param targetStart - (Optional) The start offset for the target buffer.
      * @param targetEnd - (Optional) The end offset for the target buffer.
@@ -1207,7 +1178,6 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - Throws a `TypeError` if `target` is not an instance of `Uint8Array`.
      *
-     * @instance
      * @param target - The target buffer to copy data into.
      * @param targetStart - (Optional) The start offset for the target buffer.
      * @param sourceStart - (Optional) The start offset for the source buffer.
@@ -1253,7 +1223,6 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - No specific error handling is required, as the method works with valid buffer indices.
      *
-     * @instance
      * @param start - (Optional) The starting index for the slice (default is `0`).
      * @param end - (Optional) The ending index for the slice (default is the length of the buffer).
      * @returns A new `Buffer` containing the sliced portion of the original buffer.
@@ -1290,11 +1259,10 @@ export class Buffer extends DataViewProvider {
      * ## Error Handling:
      * - No specific error handling is required, as this method only alters the string representation of the `Buffer`.
      *
-     * @instance
      * @returns A string representing the `Buffer` in a readable hexadecimal format.
      */
 
-    [Symbol.for('nodejs.util.inspect.custom')]() {
+    [Symbol.for('nodejs.util.inspect.custom')](): string {
         const value = Array.from(
             this, byte => byte.toString(16).padStart(2, '0')
         ).join(' ');
@@ -1434,7 +1402,7 @@ export class Buffer extends DataViewProvider {
      * @returns An object with `preparedOffset` and `preparedValue` (a `Uint8Array`).
      */
 
-    private prepareIndexOfParameters(value: primitiveInputType, preparedOffset: number, encoding: BufferEncoding): {
+    private prepareIndexOfParameters(value: PrimitiveInputType, preparedOffset: number, encoding: BufferEncoding): {
         preparedOffset: number,
         preparedValue: Uint8Array
     } {

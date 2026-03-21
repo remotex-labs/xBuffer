@@ -29,17 +29,17 @@ test('buffer.compare argument validation', () => {
     expect(() => {
         const b = Buffer.from('a');
         Buffer.compare(b, <any> 'abc');
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
         const b = Buffer.from('a');
         Buffer.compare(<any> 'abc', b);
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
         const b = Buffer.from('a');
         b.compare(<any> 'abc');
-    }).toThrowError();
+    }).toThrow();
 });
 
 test('buffer.equals', () => {
@@ -57,5 +57,5 @@ test('buffer.equals argument validation', () => {
     expect(() => {
         const b = Buffer.from('a');
         b.equals(<any> 'abc');
-    }).toThrowError();
+    }).toThrow();
 });

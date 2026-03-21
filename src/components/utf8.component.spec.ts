@@ -46,7 +46,9 @@ describe('encodeUTF8 and decodeUTF8', () => {
         const encoded = encodeUTF8(decoded);
         expect(encoded).toBe(input);
         expect(decoded).toEqual(new Uint8Array(
-            [ 0xe4, 0xbd, 0xa0, 0xe5, 0xa5, 0xbd, 0xef, 0xbc, 0x8c, 0xe4, 0xb8, 0x96, 0xe7, 0x95, 0x8c, 0xef, 0xbc, 0x81 ]
+            [
+                0xe4, 0xbd, 0xa0, 0xe5, 0xa5, 0xbd, 0xef, 0xbc, 0x8c, 0xe4, 0xb8, 0x96, 0xe7, 0x95, 0x8c, 0xef, 0xbc, 0x81
+            ]
         ));
     });
 
@@ -229,7 +231,7 @@ describe('UTF-8 Encoding and Decoding', () => {
             input: 'A'.repeat(1000000)
         }
     ];
-    test.each(testCases)('$name', ({ input }) => {
+    test.each(...testCases)('$name', ({ input }) => {
         const decoded = decodeUTF8(input);
         const encoded = encodeUTF8(decoded);
 

@@ -33,10 +33,9 @@ import { Buffer } from '@providers/buffer.provider';
  *   based on the state of the environment.
  *
  * @private
- * @returns {void}
  */
 
-export function setGlobalBuffer() {
+export function setGlobalBuffer(): void {
     globalThis.Buffer = <any> Buffer;
 }
 
@@ -73,13 +72,12 @@ export function setGlobalBuffer() {
  *   related to the custom inspection logic or the `console.log` override.
  *
  * @private
- * @returns {void}
  */
 
 export function supportUtilInspect(): void {
     const originalLog = console.log;
 
-    console.log = (...args) => {
+    console.log = (...args) : void => {
         // Map arguments, replacing those with the custom inspect symbol
         const processedArgs = args.map(arg =>
             arg && typeof arg === 'object' && Symbol.for('nodejs.util.inspect.custom') in arg

@@ -31,7 +31,7 @@
  * @param arg - The input data to initialize the `DataViewProvider`, either a length, array-like structure, or `ArrayBufferLike`.
  * @param byteOffset - (Optional) The byte offset within the `ArrayBuffer` to begin reading from.
  * @param length - (Optional) The number of bytes to use from the `ArrayBuffer`.
- * @throws {RangeError} Throws an error if the byteOffset or length exceeds the buffer size.
+ * @throws RangeError - Throws an error if the byteOffset or length exceeds the buffer size.
  */
 
 export class DataViewProvider extends Uint8Array {
@@ -49,7 +49,7 @@ export class DataViewProvider extends Uint8Array {
      * @param arg - The length of the array, an array-like structure, or an `ArrayBufferLike` object.
      * @param byteOffset - The byte offset within the `ArrayBuffer` to begin using (optional).
      * @param length - The number of bytes to use from the `ArrayBuffer` (optional).
-     * @throws {RangeError} Throws an error if the offset or length exceeds the buffer size.
+     * @throws RangeError - Throws an error if the offset or length exceeds the buffer size.
      */
 
     constructor(arg: number | ArrayLike<number> | ArrayBufferLike, byteOffset?: number, length?: number) {
@@ -297,9 +297,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (1).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for an unsigned 8-bit integer (0–255).
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for an unsigned 8-bit integer (0–255).
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeUInt8(value: number | string, offset: number = 0): number {
@@ -321,9 +321,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (2).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for an unsigned 16-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for an unsigned 16-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeUInt16LE(value: number | string, offset: number = 0): number {
@@ -346,9 +346,9 @@ export class DataViewProvider extends Uint8Array {
      * @returns The number of bytes written (2).
      *
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for an unsigned 16-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for an unsigned 16-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeUInt16BE(value: number | string, offset: number = 0): number {
@@ -370,9 +370,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (4).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for an unsigned 32-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for an unsigned 32-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeUInt32LE(value: number | string, offset: number = 0): number {
@@ -394,9 +394,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (4).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for an unsigned 32-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for an unsigned 32-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeUInt32BE(value: number | string, offset: number = 0): number {
@@ -418,9 +418,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (8).
      *
-     * @throws {TypeError} If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
-     * @throws {RangeError} If the `value` is out of range for an unsigned 64-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
+     * @throws RangeError - If the `value` is out of range for an unsigned 64-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeBigUInt64LE(value: bigint | string, offset: number = 0): number {
@@ -442,9 +442,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (8).
      *
-     * @throws {TypeError} If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
-     * @throws {RangeError} If the `value` is out of range for an unsigned 64-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
+     * @throws RangeError - If the `value` is out of range for an unsigned 64-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeBigUInt64BE(value: bigint | string, offset: number = 0): number {
@@ -466,9 +466,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (1).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for signed 8-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for signed 8-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeInt8(value: number | string, offset: number = 0): number {
@@ -485,9 +485,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (2).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for signed 16-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for signed 16-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeInt16LE(value: number | string, offset: number = 0): number {
@@ -504,9 +504,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (2).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for signed 16-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for signed 16-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeInt16BE(value: number | string, offset: number = 0): number {
@@ -523,9 +523,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (4).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for signed 32-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for signed 32-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeInt32LE(value: number | string, offset: number = 0): number {
@@ -542,9 +542,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (4).
      *
-     * @throws {TypeError} If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
-     * @throws {RangeError} If the `value` is out of range for signed 32-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or number, or if a string cannot be parsed as a valid number.
+     * @throws RangeError - If the `value` is out of range for signed 32-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeInt32BE(value: number | string, offset: number = 0): number {
@@ -561,9 +561,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (8).
      *
-     * @throws {TypeError} If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
-     * @throws {RangeError} If the `value` is out of range for signed 64-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
+     * @throws RangeError - If the `value` is out of range for signed 64-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeBigInt64LE(value: bigint | string, offset: number = 0): number {
@@ -580,9 +580,9 @@ export class DataViewProvider extends Uint8Array {
      * @param offset - The byte offset at which to write (default is 0).
      * @returns The number of bytes written (8).
      *
-     * @throws {TypeError} If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
-     * @throws {RangeError} If the `value` is out of range for signed 64-bit integer.
-     * @throws {RangeError} If the `offset` is negative or exceeds the bounds of the buffer.
+     * @throws TypeError - If the `value` is not a string or bigint, or if a string cannot be parsed as a valid bigint.
+     * @throws RangeError - If the `value` is out of range for signed 64-bit integer.
+     * @throws RangeError - If the `offset` is negative or exceeds the bounds of the buffer.
      */
 
     writeBigInt64BE(value: bigint | string, offset: number = 0): number {
@@ -710,8 +710,8 @@ export class DataViewProvider extends Uint8Array {
     /**
      * Reads a signed integer in little-endian byte order from the buffer.
      *
-     * @param offset The starting byte offset within the buffer.
-     * @param byteLength The number of bytes to read (byte to 6-bytes).
+     * @param offset - The starting byte offset within the buffer.
+     * @param byteLength - The number of bytes to read (byte to 6-bytes).
      * @returns The signed integer read from the buffer.
      * @throws RangeError - If `byteLength` is outside the valid range (byte to 6-bytes)
      *                      to safely return a number.
@@ -741,8 +741,8 @@ export class DataViewProvider extends Uint8Array {
     /**
      * Reads a signed integer in big-endian byte order from the buffer.
      *
-     * @param offset The starting byte offset within the buffer.
-     * @param byteLength The number of bytes to read (byte to 6-bytes).
+     * @param offset - The starting byte offset within the buffer.
+     * @param byteLength - The number of bytes to read (byte to 6-bytes).
      * @returns The signed integer read from the buffer.
      * @throws RangeError - If `byteLength` is outside the valid range (byte to 6-bytes)
      *                      to safely return a number.
@@ -770,9 +770,9 @@ export class DataViewProvider extends Uint8Array {
     /**
      * Writes an unsigned integer in little-endian byte order to the buffer.
      *
-     * @param value The unsigned integer value to write.
-     * @param offset The starting byte offset where the value should be written.
-     * @param byteLength The number of bytes to write (byte to n bytes).
+     * @param value - The unsigned integer value to write.
+     * @param offset - The starting byte offset where the value should be written.
+     * @param byteLength - The number of bytes to write (byte to n bytes).
      * @returns The new byte offset after writing.
      * @throws RangeError - If `byteLength` is outside the valid range (byte to 6-bytes)
      *                      to safely return a number.
@@ -802,9 +802,9 @@ export class DataViewProvider extends Uint8Array {
     /**
      * Writes an unsigned integer in big-endian byte order to the buffer.
      *
-     * @param value The unsigned integer value to write.
-     * @param offset The starting byte offset where the value should be written.
-     * @param byteLength The number of bytes to write (1 to n bytes).
+     * @param value - The unsigned integer value to write.
+     * @param offset - The starting byte offset where the value should be written.
+     * @param byteLength - The number of bytes to write (1 to n bytes).
      * @returns The new byte offset after writing.
      * @throws RangeError - If `byteLength` is outside the valid range (byte to 6-bytes)
      *                      to safely return a number.
@@ -832,9 +832,9 @@ export class DataViewProvider extends Uint8Array {
     /**
      * Writes a signed integer in little-endian byte order to the buffer.
      *
-     * @param value The signed integer value to write.
-     * @param offset The starting byte offset where the value should be written.
-     * @param byteLength The number of bytes to write (byte to n bytes).
+     * @param value - The signed integer value to write.
+     * @param offset - The starting byte offset where the value should be written.
+     * @param byteLength - The number of bytes to write (byte to n bytes).
      * @returns The new byte offset after writing.
      * @throws RangeError - If `byteLength` is outside the valid range (byte to 6-bytes)
      *                      to safely return a number.
@@ -858,9 +858,9 @@ export class DataViewProvider extends Uint8Array {
     /**
      * Writes a signed integer in big-endian byte order to the buffer.
      *
-     * @param value The signed integer value to write.
-     * @param offset The starting byte offset where the value should be written.
-     * @param byteLength The number of bytes to write (1 to n bytes).
+     * @param value - The signed integer value to write.
+     * @param offset - The starting byte offset where the value should be written.
+     * @param byteLength - The number of bytes to write (1 to n bytes).
      * @returns The new byte offset after writing.
      * @throws RangeError - If `byteLength` is outside the valid range (byte to 6-bytes)
      *                      to safely return a number.
@@ -907,7 +907,6 @@ export class DataViewProvider extends Uint8Array {
      * ## Error Handling:
      * - Throws a `RangeError` if the buffer length is not divisible by 2, as swapping 16-bit values requires an even number of bytes.
      *
-     * @instance
      * @returns `void` (modifies the buffer in place).
      * @throws RangeError if the buffer length is not divisible by 2.
      */
@@ -953,7 +952,6 @@ export class DataViewProvider extends Uint8Array {
      * if the buffer length is not divisible by 4,
      * as swapping 32-bit values requires an even number of 4-byte elements.
      *
-     * @instance
      * @returns `void` (modifies the buffer in place).
      * @throws RangeError if the buffer length is not divisible by 4.
      */
@@ -996,7 +994,6 @@ export class DataViewProvider extends Uint8Array {
      * ## Error Handling:
      * - Throws a `RangeError` if the buffer length is not divisible by 8, as swapping 64-bit values requires an even number of 8-byte elements.
      *
-     * @instance
      * @returns `void` (modifies the buffer in place).
      * @throws RangeError if the buffer length is not divisible by 8.
      */
@@ -1017,15 +1014,15 @@ export class DataViewProvider extends Uint8Array {
     /**
      * Helper function to validate the byte length for reading and writing data from/to a buffer.
      *
-     * @param offset The starting byte offset within the buffer.
-     * @param byteLength The number of bytes to read or write.
-     * @param maxLength The maximum length of the buffer.
+     * @param offset - The starting byte offset within the buffer.
+     * @param byteLength - The number of bytes to read or write.
+     * @param maxLength - The maximum length of the buffer.
      * @throws RangeError - If `byteLength` is outside the valid range (byte to 6-bytes)
      *                      to safely return a number.
      * @throws RangeError - If `offset` or `offset + byteLength` exceeds the buffer's boundaries.
      */
 
-    private static validateByteLength(offset: number, byteLength: number, maxLength: number) {
+    private static validateByteLength(offset: number, byteLength: number, maxLength: number): void {
         const maxByteLength = maxLength - offset;
         if (byteLength <= 0 || byteLength > maxByteLength) {
             throw new RangeError(`byteLength must be between 1 and ${ maxByteLength }`);
@@ -1082,7 +1079,7 @@ export class DataViewProvider extends Uint8Array {
      * @param value - The value to be validated, either a `number` or `BigInt`.
      * @param byteLength - The number of bytes representing the range of the value.
      * @param isSigned - Whether the value is signed (`true`) or unsigned (`false`).
-     * @throws {RangeError} If the value is out of the valid range.
+     * @throws RangeError - If the value is out of the valid range.
      */
 
     private static validateValueInRange(value: number | bigint, byteLength: number, isSigned: boolean): void {
@@ -1162,8 +1159,8 @@ export class DataViewProvider extends Uint8Array {
      * @param byteLength - The number of bytes that determine the valid range of the value.
      * @param isSigned - Whether the value is signed (`true`) or unsigned (`false`).
      * @param isBigInt - A flag to specify whether to parse the value as a `BigInt` (`true`) or `number` (`false`).
-     * @throws {TypeError} If the value is not a valid number or `BigInt`.
-     * @throws {RangeError} If the value is out of the valid range.
+     * @throws TypeError - If the value is not a valid number or `BigInt`.
+     * @throws RangeError - If the value is out of the valid range.
      */
 
     private static ParseAndValidateInRange<T extends number | bigint>(value: string | T, byteLength: number, isSigned: boolean, isBigInt = false): T {
